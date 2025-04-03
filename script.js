@@ -1,44 +1,39 @@
-// * prebacen u const
 const items = [];
 const tasks = [];
 
-// * premjesteno u global scope kao const
 const itemInput = document.getElementById("itemInput");
 const taskInput = document.getElementById("taskInput");
 
-const shoppingList = document.getElementById("shoppingList"); // * napraviti konstantu za shoppingList element
+const shoppingList = document.getElementById("shoppingList");
 const taskList = document.getElementById("taskList");
 
 function addItem() {
-  let name = itemInput.value.trim();
-  // * objekat za item
-  const item = { name, bought: false };
+  const name = itemInput.value.trim();
+  if (!name) return alert("Upisite item name");
 
-  // * name trimovan i provjeren
-  name ? items.push(item) : alert("Upisite item name"); // * u array se pusha novi objekat
+  const item = { name, bought: false };
+  items.push(item);
 
   itemInput.value = "";
   renderItems();
 }
 
 function renderItems() {
-  shoppingList.innerHTML = ""; // koristi se varijabla za listu
-  for (let i = 0; i < items.length; i++) {
-    const itemElement = document.createElement("div"); // prepravljeno u const
+  shoppingList.innerHTML = "";
+
+  items.forEach((item, index) => {
+    const itemElement = document.createElement("div");
     itemElement.className = "item";
 
-    // * ne provjerava se da li je vrijednost booleana jednaka true, posto if statement se izvrsava ako je vrijednost true
-    if (items[i]?.bought) itemElement.classList.add("bought");
+    if (item?.bought) itemElement.classList.add("bought");
 
-    // * formatirano
-    itemElement.innerHTML = `<span>${items[i]?.name} - 
-      ${tasks[i]?.bought ? "bought" : "pending"}</span>
-      <button onclick='toggleBought(${i})'>Toggle Bought</button>
-      <button onclick='deleteItem(${i})'>Delete</button>`;
+    itemElement.innerHTML = `<span>${item?.name} - 
+      ${item?.bought ? "bought" : "pending"}</span>
+      <button onclick='toggleBought(${index})'>Toggle Bought</button>
+      <button onclick='deleteItem(${index})'>Delete</button>`;
 
-    // * koristi se varijabla za shoppingList
     shoppingList.appendChild(itemElement);
-  }
+  });
 }
 
 function toggleBought(index) {
@@ -47,16 +42,16 @@ function toggleBought(index) {
 }
 
 function deleteItem(index) {
-  items.splice(index);
+  items.splice(index, 1);
   renderItems();
 }
 
 function addTask() {
-  let text = taskInput.value.trim(); // * preimenovano u texti trimovano
-  const task = { text, completed: false };
+  const text = taskInput.value.trim();
+  if (!text) return alert("Upisi text");
 
-  // * provjeravamo samo da li postoji text nakon trimovanja
-  text ? tasks.push(task) : alert("Upisite text"); // * u array pushamo novi objekat
+  const task = { text, completed: false };
+  tasks.push(task);
 
   taskInput.value = "";
   renderTasks();
@@ -64,22 +59,20 @@ function addTask() {
 
 function renderTasks() {
   taskList.innerHTML = "";
-  for (let i = 0; i < tasks.length; i++) {
-    // * koristiti let za for loop
-    let taskElement = document.createElement("div");
+
+  items.forEach((task, index) => {
+    const taskElement = document.createElement("div");
     taskElement.className = "task";
 
-    // * if statement se izvrsava ako je ono u zagradama true, ako je task completed biti ce true
-    if (tasks[i]?.completed) taskElement.classList.add("completed");
+    if (task?.completed) taskElement.classList.add("completed");
 
-    // * formatirano
-    taskElement.innerHTML = `<span>${tasks[i]?.text} - 
-      ${tasks[i]?.completed ? "done" : "pending"}</span>
-      <button onclick='toggleCompleted(${i})'>Complete</button>
-      <button onclick='deleteTask(${i})'>Delete</button>`;
+    taskElement.innerHTML = `<span>${task?.text} - 
+      ${task?.completed ? "done" : "pending"}</span>
+      <button onclick='toggleCompleted(${index})'>Complete</button>
+      <button onclick='deleteTask(${index})'>Delete</button>`;
 
     taskList.appendChild(taskElement);
-  }
+  });
 }
 
 function toggleCompleted(index) {
@@ -88,11 +81,10 @@ function toggleCompleted(index) {
 }
 
 function deleteTask(index) {
-  tasks.splice(index);
+  tasks.splice(index, 1);
   renderTasks();
 }
 
-// * window.onload zamjenjen sa DOMContentLoaded event listenerom
 document.addEventListener("DOMContentLoaded", () => {
   renderItems();
   renderTasks();

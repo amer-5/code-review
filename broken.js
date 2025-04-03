@@ -20,7 +20,7 @@ function addItem() {
 function renderItems() {
   document.getElementById("shoppingList").innerHTML = ""; // * napraviti konstantu za shoppingList element
   /*
-  * koristiti let u for loopu
+  * koristiti let u for loopu ili koristiti forEach
   ! koristiti operator < umjesto <= 
   */
   for (var i = 0; i <= items.length; i++) {
@@ -78,7 +78,7 @@ function addTask() {
 function renderTasks() {
   document.getElementById("taskList").innerHTML = ""; // * napraviti konstantu za taskList element
   /*
-  * koristiti let u for loopu
+  * koristiti let u for loopu ili koristi forEach
   ! koristiti operator < umjesto <= 
   */
   for (var i = 0; i <= tasks.length; i++) {
