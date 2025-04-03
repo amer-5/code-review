@@ -60,7 +60,7 @@ function addTask() {
 function renderTasks() {
   taskList.innerHTML = "";
 
-  items.forEach((task, index) => {
+  tasks.forEach((task, index) => {
     const taskElement = document.createElement("div");
     taskElement.className = "task";
 
